@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="stylesheet.css" />
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
+</head>
+<body>
+    <div id="map" ng-controller="MapController"></div>
+    <div id="terminal" ng-controller="TerminalController">
+        <h3>Player details</h3>
+        <p>
+            <span class="label">Nickname: </span><span id="currentNickname"></span><br /><br />
+            <span class="label">Longitude: </span><span id="currentLongitude"></span><br />
+            <span class="label">Latitude: </span><span id="currentLatitude">{{data.latitude}}</span>
+        </p>
+
+        <h3>Network Information</h3>
+        <span class="label">Chatspace:</span>
+
+        <h3>Send pulse</h3>
+        <span class="label">Message:</span><br />
+        <textarea name="message" id="message" rows="2"></textarea><br />
+        <input type="button" value="Send" />
+        <input type="checkbox" id="auto-send" /> Auto-send pulse on drag end
+
+        <h3>Chatspace log</h3>
+        <span id="currentChatLog" style="font-family: Verdana; font-size: 13px;"></span>
+    </div>
+
+    <script src="app/vendor/require.js" data-main="app/loader"></script>
+</body>
+</html>
