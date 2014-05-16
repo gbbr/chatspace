@@ -1,22 +1,21 @@
 
-var services = angular.module('PulseTester.Services', []);
+PulseTester.components = angular.module('PulseTester.Components', []);
 
-services.factory('PlayerManager', function() {
+PulseTester.components.factory('PlayerManager', function() {
+    return {
+
+    }
+});
+
+PulseTester.components.factory('Player', function() {
 
 });
 
-services.factory('Player', function() {
+PulseTester.components.factory('Chatroom', function() {
 
 });
 
-services.factory('Chatroom', function() {
-
-});
-
-services.factory('GMap', function() {
-
-});
-
-services.factory('Sockets', function() {
-
+PulseTester.components.factory('$sockets', function() {
+    // send
+    // bind
 });

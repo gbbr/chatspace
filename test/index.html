@@ -6,17 +6,21 @@
     <link rel="stylesheet" href="stylesheet.css" />
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"/>
 </head>
-<body>
-    <div id="map" ng-controller="MapController"></div>
-    <div id="terminal" ng-controller="TerminalController">
-        <h3>Player details</h3>
+<body ng-app="PulseTester" ng-controller="AppController">
+    <div id="map"></div>
+    <div id="terminal">
+        <h1>{{player.nickname || 'Emulator' }}</h1>
+
+        <div id="networkStatus" class="idle">
+            &#8226;&#8226;&#8226;&#8226;&#8226;&#8226;
+        </div>
+
         <p>
-            <span class="label">Nickname: </span><span id="currentNickname"></span><br /><br />
-            <span class="label">Longitude: </span><span id="currentLongitude"></span><br />
-            <span class="label">Latitude: </span><span id="currentLatitude">{{data.latitude}}</span>
+            <span class="label">Longitude: </span>{{player.longitude}}<br />
+            <span class="label">Latitude: </span>{{player.latitude}}
         </p>
 
-        <h3>Network Information</h3>
+        <h3>Network</h3>
         <span class="label">Chatspace:</span>
 
         <h3>Send pulse</h3>
@@ -25,10 +29,16 @@
         <input type="button" value="Send" />
         <input type="checkbox" id="auto-send" /> Auto-send pulse on drag end
 
-        <h3>Chatspace log</h3>
+        <h3>Log</h3>
         <span id="currentChatLog" style="font-family: Verdana; font-size: 13px;"></span>
     </div>
 
-    <script src="app/vendor/require.js" data-main="app/loader"></script>
+    <script>PulseTester = window.PulseTester = window.PulseTester || {};</script>
+    <script src="https://maps.googleapis.com/maps/api/js?&sensor=true"></script>
+    <script src="app/vendor/StyledMarkers.js"></script>
+    <script src="app/vendor/angular.min.js"></script>
+    <script src="app/vendor/socket.io.min.js"></script>
+    <script src="app/services.js"></script>
+    <script src="app/app.js"></script>
 </body>
 </html>
