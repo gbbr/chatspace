@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+	<title>asd</title>
+</head>
+<body>
+	<input type="text" id="txtMessage" /><input type="button" value="Send" id="btnSend" />
+	<div id="messageBuffer"></div>
+
+	<script src="socket.io.min.js"></script>
+	<script>
+	  var socket = io.connect('http://localhost:5665'),
+	      messageBuffer = document.getElementById('messageBuffer');
+
+	  function printMessage(msg) {
+	  	messageBuffer.innerHTML = msg + "<br />" + messageBuffer.innerHTML;
+	  }
+
+	  document.getElementById('btnSend').addEventListener('click', function() {
+	  	socket.emit('message', document.getElementById('txtMessage').value);
+	  });
+
+	  socket.on('connected', function(data) {
+	  	printMessage(data + " has joined.");
+	  });
+
+	  socket.on('message', function(message) {
+	  	printMessage(message.id + ": " + message.body);
+	  });
+
+	  socket.on('news', function (data) {
+	    console.log(data);
+	    socket.emit('my other event', { my: 'data' });
+	  });
+	</script>
+</body>
+</html>
