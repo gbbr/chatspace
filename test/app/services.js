@@ -3,18 +3,15 @@ PulseTester.components = angular.module('PulseTester.Components', []);
 
 PulseTester.components.factory('$socket', function() {
     return {
-        socket: void 0,
+        sockets: [],
 
         create: function() {
-            if( !this.socket ) {
-                this.socket = io.connect('http://localhost:4242', { 'force new connection': true });
-                this.socket.on('connect', function() { console.log('Socket :: Connected'); });
-                this.socket.on('disconnect', function() { console.log('Socket :: Disconnected'); });
-            } else {
-                this.socket.socket.connect();
-            }
+            var socket = io.connect('http://localhost:4242', { 'force new connection': true });
+            socket.on('connect', function() { console.log('Socket :: Connected'); });
+            socket.on('disconnect', function() { console.log('Socket :: Disconnected'); });
 
-            return this.socket;
+            this.sockets.push(socket);
+            return socket;
         },
 
         disconnect: function() {
