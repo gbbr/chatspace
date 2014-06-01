@@ -1,7 +1,5 @@
 
-PulseTester.components = angular.module('PulseTester.Components', []);
-
-PulseTester.components.factory('$socket', function() {
+PulseTester.SocketFactory = function() {
     return {
         sockets: [],
 
@@ -18,4 +16,4 @@ PulseTester.components.factory('$socket', function() {
             socket.disconnect();
         }
     }
-});
+};

@@ -5,14 +5,19 @@ var app    = require('express')(),
 server.listen(4242);
 
 io.sockets.on('connection', function (socket) {
+
     socket.on('disconnect', function() {
-        console.log('====== DISCONNECT ====', socket.id);
+        console.log('====== DISCONNECTED ====', socket.id);
     });
 
-    io.sockets.emit('connected', socket.id);
+    //io.sockets.emit('connected', socket.id);
 
-    socket.on('message', function(msg) {
-      console.log('==== MESSAGE ====', msg);
-      io.sockets.emit('message', { id: socket.id, body: msg });
+    socket.on('player-data', function(data) {
+      console.log('========== CONNECTED ==========');
+      console.log('NICKNAME: ', data.name);
+      console.log('POSITION: Lat(', data.latitude, ') Lng(', data.longitude ,')');
+      console.log('SOCKET: ', socket.id);
+      console.log('===============================');
+      //io.sockets.emit('message', { id: socket.id, body: data.nickname });
     });
 });
