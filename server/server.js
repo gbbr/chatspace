@@ -11,7 +11,7 @@ io.sockets.on('connection', function (socket) {
     });
 
     //io.sockets.emit('connected', socket.id);
-
+    //auth, handshake, update
     socket.on('player-data', function(data) {
       console.log('========== CONNECTED ==========');
       console.log('NICKNAME: ', data.name);
