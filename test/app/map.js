@@ -68,19 +68,8 @@ PulseTester.MapFactory = ['$socket', function($socket) {
             }.bind(this));
 
             google.maps.event.addListener(player, 'click', function() {
-                /*var flightPath = new google.maps.Polyline({
-                 path: [player.position, players[0].position],
-                 geodesic: true,
-                 strokeColor: '#FF0000',
-                 strokeOpacity: 1.0,
-                 strokeWeight: 2,
-                 map: map
-                 });*/
-
                 this.setActive(player);
             }.bind(this));
-
-//            google.maps.event.addListener(player, 'dragend', function() {/*sync with server*/});
         },
 
         setActive: function(player) {
