@@ -59,7 +59,13 @@ PulseTester.MapFactory = ['$socket', function($socket) {
             this.markers.push(player);
             this.setActive(player);
 
-            google.maps.event.addListener(player, 'drag', function() { this.setActive(player);});
+            google.maps.event.addListener(player, 'dragend', function() {
+                // Update position
+                player.data.latitude = player.getPosition().lat();
+                player.data.longitude = player.getPosition().lng();
+
+                this.setActive(player);
+            }.bind(this));
 
             google.maps.event.addListener(player, 'click', function() {
                 /*var flightPath = new google.maps.Polyline({
@@ -74,7 +80,7 @@ PulseTester.MapFactory = ['$socket', function($socket) {
                 this.setActive(player);
             }.bind(this));
 
-            google.maps.event.addListener(player, 'dragend', function() {/*sync with server*/});
+//            google.maps.event.addListener(player, 'dragend', function() {/*sync with server*/});
         },
 
         setActive: function(player) {
