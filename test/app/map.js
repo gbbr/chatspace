@@ -1,4 +1,4 @@
-PulseTester.MapFactory = function() {
+PulseTester.MapFactory = ['$socket', function($socket) {
 
     function Map(props) {
         var domNode  = document.getElementById(props.domNode || 'mapCanvas'),
@@ -8,14 +8,18 @@ PulseTester.MapFactory = function() {
             center: position,
             zoom: props.zoom
         });
+
+        this.view = props.view;
+
+        google.maps.event.addListener(this.instance, "rightclick", function(event) {
+            var nickName = prompt("Enter nickname: ");
+            this.addPlayer(event.latLng, nickName || "Player #" + (this.markers.length + 1));
+        }.bind(this));
     }
 
     Map.prototype = {
         markers: [],
-
-        markerStyle: {
-
-        },
+        currentPlayer: -1,
 
         addMarker: function(args) {
             var options = {
@@ -32,8 +36,58 @@ PulseTester.MapFactory = function() {
             angular.extend(options, args);
 
             return new StyledMarker(options);
+        },
+
+        addPlayer: function(position, nickName) {
+            var player = this.addMarker({
+                position: position,
+                data: {
+                    nickname: nickName,
+                    channel: null, /* group of chat room members */
+                    latitude: position.lat(),
+                    longitude: position.lng(),
+                    socket: $socket.create()
+                }
+            });
+
+            player.data.socket.emit('player-data', {
+                name: nickName,
+                latitude: position.lat(),
+                longitude: position.lng()
+            });
+
+            this.markers.push(player);
+            this.setActive(player);
+
+            google.maps.event.addListener(player, 'drag', function() { this.setActive(player);});
+
+            google.maps.event.addListener(player, 'click', function() {
+                /*var flightPath = new google.maps.Polyline({
+                 path: [player.position, players[0].position],
+                 geodesic: true,
+                 strokeColor: '#FF0000',
+                 strokeOpacity: 1.0,
+                 strokeWeight: 2,
+                 map: map
+                 });*/
+
+                this.setActive(player);
+            }.bind(this));
+
+            google.maps.event.addListener(player, 'dragend', function() {/*sync with server*/});
+        },
+
+        setActive: function(player) {
+            angular.forEach(this.markers, function(player) {
+                player.styleIcon.set("color", "ddddff");
+            });
+
+            player.styleIcon.set("color", "88ff88");
+
+            this.view.player = player.data;
+            this.view.$apply();
         }
     }
 
     return Map;
-}
+}]
